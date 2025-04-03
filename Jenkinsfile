@@ -1,9 +1,24 @@
 pipeline {
-    agent { docker { image 'maven:3.9.9-eclipse-temurin-21-alpine' } }
+    agent any
     stages {
-        stage('build') {
+        stage('Clone Repo') {
             steps {
-                sh 'mvn --version'
+                git 'https://github.com/kaitou1412kid/jenkins-practice'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh './mvnw clean package'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh './mvnw test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo "Deploying the application..."
             }
         }
     }
